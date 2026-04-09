@@ -1,0 +1,21 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"python-envs.pythonProjects": [
+			{
+				"path": "V1_01.py",
+				"envManager": "ms-python.python:venv",
+				"packageManager": "ms-python.python:pip"
+			},
+			{
+				"path": "V01_02.py",
+				"envManager": "ms-python.python:venv",
+				"packageManager": "ms-python.python:pip"
+			}
+		]
+	}
+}

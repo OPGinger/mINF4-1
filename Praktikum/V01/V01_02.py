@@ -1,10 +1,10 @@
 """
 Daniel Baer
-02.04.2026
+08.04.2026
 
-mINF4/1, V1, "Maximale Abschnittssumme"
+mINF4/1, V01, "Maximale Abschnittssumme"
 
-V1_02.py
+V01_02.py
 
 
 This application implements the divide-and-conquer algorithm to find the maximum subarray sum in a given sequence of integers.
@@ -26,12 +26,11 @@ def finde_zwischen(Z,l,m,r):
     for i in range(m,l-1,-1):
         
         sum += Z[i]
-        count_add += 1 # increment count of additions
+        count_add += 1 # increment count of additions (and comparisons)
         
         if sum > linksMax:
             linksMax = sum
             links = i
-        count_comp += 1 # increment count of comparisons
         
     rechtsMax = -999999
     sum = 0
@@ -40,12 +39,11 @@ def finde_zwischen(Z,l,m,r):
     for i in range(m+1,r+1):
         
         sum += Z[i]
-        count_add += 1 # increment count of additions
+        count_add += 1 # increment count of additions (and comparisons)
         
         if sum > rechtsMax:
             rechtsMax = sum
             rZ = i
-        count_comp += 1 # increment count of comparisons
         
     return linksMax + rechtsMax, links, rZ
 
@@ -74,7 +72,6 @@ def main() -> None:
     for i in range(4):
 
         count_add = 0
-        count_comp = 0
         
         filename = f"AlgoDatSoSe26/data/seq{i}.txt"
         
@@ -90,7 +87,7 @@ def main() -> None:
         
         #print out counts of comparisons and additions
         complexity = (int)(len(sequence)*math.log2(len(sequence)))
-        print(f"comparisons: {count_comp}, additions: {count_add}, n*ld(n): {complexity}, error: {count_comp - complexity}\n")
+        print(f"additions: {count_add}, n*ld(n): {complexity}, error: {count_add - complexity}\n")
 
 
 

@@ -17,7 +17,7 @@ def summe_quadrate(n) -> int:
     
     for i in range(1, n+1):
         for j in range(1, i+1):
-            c += 1                                  # increment count
+            c += 1                                  # increment count of additions
             s = s+j                                 # addidtion
             
     print("count    = ", c)                         # output count of additions
