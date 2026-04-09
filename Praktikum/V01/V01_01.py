@@ -2,9 +2,9 @@
 Daniel Baer
 02.04.2026
 
-mINF4/1, V1, "Komplexitaet ablesen"
+mINF4/1, V01, "Komplexitaet ablesen"
 
-V1_01.py
+V01_01.py
 
 
 This application is used for testing the dependency of the number of additions in summe_quadrate(n) on n 
