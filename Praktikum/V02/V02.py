@@ -120,7 +120,7 @@ def main() -> None:
         
         # print results
         print(f"seq{i} ({len(sequence)} elements):")
-        print(f"Comparisons: {ac.comparisons}, {ceil(len(sequence)*log2(len(sequence))-len(sequence)-1)} (max)")
+        print(f"Comparisons: {ac.comparisons} ({ceil(len(sequence)*log2(len(sequence))-len(sequence)-1)} max)")
         print(f"Sorted correctly: {is_sorted(sorted_arr)}")
         print(f"Duration: {((end_time - start_time)*1000):.6f} ms")
         print(f"Array: {sorted_arr}\n")
