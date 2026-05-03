@@ -20,47 +20,46 @@ sys.path.insert(0, 'AlgoDatSoSe26')
 # import classes from utils module
 from utils.algo_context import AlgoContext
 from utils.algo_array import Array
-from utils.algo_int import Int
 
 
 # quicksort with rightmost element as pivot
-def quicksort_r(arr : Array, left, right, ctx : AlgoContext):
+def quicksort_r(arr : Array, left, right):
 
     if left < right:
         # Partitioniere das Array und erhalte den Pivot-Index
         pivot_index = partition_alt_r(arr, left, right)
 
         # recursive sort of left and right subarrays
-        quicksort_r(arr, left, pivot_index - 1, ctx)
-        quicksort_r(arr, pivot_index + 1, right, ctx)
+        quicksort_r(arr, left, pivot_index - 1)
+        quicksort_r(arr, pivot_index + 1, right)
 
     return arr
 
 
 # quicksort with leftmost element as pivot
-def quicksort_l(arr : Array, left, right, ctx : AlgoContext):
+def quicksort_l(arr : Array, left, right):
 
     if left < right:
         # Partitioniere das Array und erhalte den Pivot-Index
         pivot_index = partition_alt_l(arr, left, right)
 
         # recursive sort of left and right subarrays
-        quicksort_l(arr, left, pivot_index - 1, ctx)
-        quicksort_l(arr, pivot_index + 1, right, ctx)
+        quicksort_l(arr, left, pivot_index - 1)
+        quicksort_l(arr, pivot_index + 1, right)
 
     return arr
 
 
 # quicksort with median of pivot selection
-def quicksort_m(arr : Array, left, right, ctx : AlgoContext):
+def quicksort_m(arr : Array, left, right):
 
     if left < right:
         # Partitioniere das Array und erhalte den Pivot-Index
         pivot_index = partition_alt_m(arr, left, right)
 
         # recursive sort of left and right subarrays
-        quicksort_m(arr, left, pivot_index - 1, ctx)
-        quicksort_m(arr, pivot_index + 1, right, ctx)
+        quicksort_m(arr, left, pivot_index - 1)
+        quicksort_m(arr, pivot_index + 1, right)
 
     return arr
 
@@ -69,7 +68,7 @@ def quicksort_m(arr : Array, left, right, ctx : AlgoContext):
 def partition_alt_r(arr : Array, left, right):
     
     # take right element as pivot
-    pivot = arr[right].value
+    pivot = arr[right]
     
     # index of element in front of the pivot
     i = left - 1
@@ -78,12 +77,9 @@ def partition_alt_r(arr : Array, left, right):
     for j in range(left, right):
         if arr[j] <= pivot:
             i += 1
-            
-            # swap elements
-            arr[i], arr[j] = arr[j].value, arr[i].value
+            arr.swap(i, j)
     
-    # swap elements
-    arr[i + 1], arr[right] = arr[right].value, arr[i + 1].value
+    arr.swap(i + 1, right)
     
     return i + 1
 
@@ -92,7 +88,7 @@ def partition_alt_r(arr : Array, left, right):
 def partition_alt_l(arr : Array, left, right):
     
     # take left element as pivot
-    pivot = arr[left].value
+    pivot = arr[left]
     
     # index of element in front of the pivot
     i = left
@@ -101,12 +97,9 @@ def partition_alt_l(arr : Array, left, right):
     for j in range(left + 1, right + 1):
         if arr[j] <= pivot:
             i += 1
-            
-            # swap elements
-            arr[i], arr[j] = arr[j].value, arr[i].value
+            arr.swap(i, j)
     
-    # swap elements
-    arr[left], arr[i] = arr[i].value, arr[left].value
+    arr.swap(left, i)
     
     return i
 
@@ -115,11 +108,26 @@ def partition_alt_l(arr : Array, left, right):
 def partition_alt_m(arr : Array, left, right):
     
     mid = (left + right) // 2
-    pivot = arr[mid]
-    if(arr[left].value >= arr[mid].value >= arr[right].value or arr[left].value <= arr[mid].value <= arr[right].value):
-        pivot = arr[mid]
+    
+    # choose median pivot from left, mid, right
+    if arr[left] <= arr[mid]:
+        if arr[mid] <= arr[right]:
+            pivot_index = mid
+        elif arr[left] <= arr[right]:
+            pivot_index = right
+        else:
+            pivot_index = left
     else:
-        return partition_alt_l(arr, left, right)
+        if arr[left] <= arr[right]:
+            pivot_index = left
+        elif arr[mid] <= arr[right]:
+            pivot_index = right
+        else:
+            pivot_index = mid
+
+    # move chosen pivot to the right side and partition like in right-pivot variant
+    arr.swap(pivot_index, right)
+    pivot = arr[right]
 
     # index of element in front of the pivot
     i = left - 1
@@ -128,12 +136,9 @@ def partition_alt_m(arr : Array, left, right):
     for j in range(left, right):
         if arr[j] <= pivot:
             i += 1
-            
-            # swap elements
-            arr[i], arr[j] = arr[j].value, arr[i].value
+            arr.swap(i, j)
     
-    # swap elements
-    arr[i + 1], arr[right] = arr[right].value, arr[i + 1].value
+    arr.swap(i + 1, right)
     
     return i + 1
         
@@ -146,7 +151,7 @@ def is_sorted(arr : Array) -> bool:
     return True
 
 
-# list of algorithms to test
+# list of algorithm names and functions to test
 algorithms = [
     ("right", quicksort_r),
     ("left", quicksort_l),
@@ -181,7 +186,7 @@ def main() -> None:
             start_time = time.time()
             
             # execute quicksort with pivot variant
-            sorted_arr = algorithms[variant][1](arr, 0, len(arr) - 1, ctx)
+            sorted_arr = algorithms[variant][1](arr, 0, len(arr) - 1)
             
             # get end time
             end_time = time.time()
