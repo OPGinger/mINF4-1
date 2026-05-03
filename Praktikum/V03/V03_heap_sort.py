@@ -1,6 +1,6 @@
 """
 Daniel Baer
-01.05.2026
+03.05.2026
 
 mINF4/1, V03, "Heap Sort"
 
@@ -19,39 +19,23 @@ sys.path.insert(0, 'AlgoDatSoSe26')
 # import classes from utils module
 from utils.algo_context import AlgoContext
 from utils.algo_array import Array
+from utils.algo_int import Int
 
+# import priority queue class
+from prio_queue import priority_queue
 
-def heapify(arr: Array, n: int, i: int) -> None:
-    """Sift down the node at index i in a heap of size n."""
-    largest = i
-    left = 2 * i + 1
-    right = 2 * i + 2
-
-    if left < n and arr[left] > arr[largest]:
-        largest = left
-
-    if right < n and arr[right] > arr[largest]:
-        largest = right
-
-    if largest != i:
-        arr.swap(i, largest)
-        heapify(arr, n, largest)
-
-
-def build_max_heap(arr: Array) -> Array:
-    n = len(arr)
-    for i in range(n // 2 - 1, -1, -1):
-        heapify(arr, n, i)
-    return arr
-
-
+# heap sort implementation using priority queue
 def heap_sort(arr: Array, ctx: AlgoContext) -> Array:
-    n = len(arr)
-    build_max_heap(arr)
+    # Create empty priority queue to store the elements of the array
+    pq = priority_queue([])
 
-    for i in range(n - 1, 0, -1):
-        arr.swap(0, i)
-        heapify(arr, i, 0)
+    # Insert elements of the array into the priority queue
+    for i in range(len(arr)):
+        pq.insert(Int(arr[i].value, ctx))
+
+    # Pop all elements from the priority queue and put them back into the array
+    for i in range(len(arr) - 1, -1, -1):
+        arr[i] = pq.pop()
 
     return arr
 
@@ -64,7 +48,6 @@ def is_sorted(arr: Array) -> bool:
     return True
 
 
-    
 def main() -> None:
     ctx = AlgoContext()
     results = []
