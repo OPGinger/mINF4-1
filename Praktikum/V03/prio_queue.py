@@ -13,12 +13,12 @@ This implements a priority queue class using a heap data structure.
 class priority_queue:
 
     # Initialize the priority queue with an array
-    def __init__(self, arr):
+    def __init__(self, arr) -> None:
         self.arr = arr
         self.size = len(arr)
 
     # Insert a new priority into the priority queue
-    def insert(self, priority):
+    def insert(self, priority) -> None:
         # Add the new priority to the end of the array and increase the size
         self.arr.append(priority)
         self.size += 1
@@ -27,7 +27,7 @@ class priority_queue:
         self._sift_up(self.size - 1)
     
     # Remove and return the highest priority element from the priority queue
-    def pop(self):
+    def pop(self) -> int:
         # If the priority queue is empty, raise an exception
         if self.is_empty():
             raise IndexError("Priority Queue is empty")
@@ -42,7 +42,7 @@ class priority_queue:
         return top
     
     # Return the highest priority element without removing it
-    def peek(self):
+    def peek(self) -> int:
         if self.is_empty():
             # If the priority queue is empty, raise an exception
             raise IndexError("Priority Queue is empty")
@@ -50,11 +50,11 @@ class priority_queue:
         return self.arr[0]
     
     # Check if the priority queue is empty
-    def is_empty(self):
+    def is_empty(self) -> bool:
         return self.size == 0
     
     # Helper function to maintain the heap property after inserting a new element
-    def _sift_up(self, index):
+    def _sift_up(self, index) -> None:
         # Calculate the parent index of the current index
         parent = (index - 1) // 2
 
@@ -65,7 +65,7 @@ class priority_queue:
             self._sift_up(parent)
     
     # Helper function to maintain the heap property after removing the top element
-    def _sift_down(self, index):
+    def _sift_down(self, index) -> None:
         # Initialize the largest element as the current index
         largest = index
 
