@@ -1,0 +1,10 @@
+Task 4 - Deletion in AVL Tree
+Inserted values: [30, 20, 40, 10, 25, 35, 50, 5, 15, 27]
+Deleted values: [50, 40, 35]
+Height before deletion: 4
+Height after deletion: 3
+In-order before deletion: [5, 10, 15, 20, 25, 27, 30, 35, 40, 50]
+In-order after deletion: [5, 10, 15, 20, 25, 27, 30]
+Graph before deletion: AVL_Before_Delete_20260509_140332.gv.pdf
+Graph after deletion: AVL_After_Delete_20260509_140333.gv.pdf
+Interpretation: after deletions, the AVL tree remains balanced due to rotations.

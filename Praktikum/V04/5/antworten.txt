@@ -1,0 +1,11 @@
+Task 5 - Complexity Analysis
+Measured metric: comparisons during insertion
+Scenarios:
+1) BST with sorted input (worst case)
+2) BST with random input (average case)
+3) AVL with sorted input (self-balancing)
+
+Interpretation:
+- BST(sorted) grows approximately quadratically over full build (sum of linear path lengths).
+- BST(random) grows slower, close to n*log(n) behavior in practice.
+- AVL(sorted) also stays near n*log(n) due to balancing rotations.

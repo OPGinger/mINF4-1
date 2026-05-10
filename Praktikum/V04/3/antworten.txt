@@ -1,0 +1,8 @@
+Task 3 - Degeneration of BST
+Input size n: 15
+Ascending insertion height: 15
+Descending insertion height: 15
+Ascending PDF: BST_Degeneration_Ascending_20260509_140303.gv.pdf
+Descending PDF: BST_Degeneration_Descending_20260509_140304.gv.pdf
+Interpretation: both sorted insertion orders create a degenerated tree (chain),
+so height grows linearly with n in the worst case.

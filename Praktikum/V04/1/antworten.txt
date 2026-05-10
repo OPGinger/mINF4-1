@@ -1,0 +1,5 @@
+Task 1 - Visualization with Graphviz
+Generated PDF: BinaryTree_20260509_140217.gv.pdf
+Root node: -59
+Number of leaf nodes: 6
+Tree height: 6
