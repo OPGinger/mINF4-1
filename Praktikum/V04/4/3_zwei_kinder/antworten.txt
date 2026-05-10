@@ -1,0 +1,9 @@
+Task 4 - Scenario 3 (Two-Children Node Deletion)
+Inserted values: [30, 20, 40, 10, 25, 35, 50, 5, 15, 27]
+Deleted value: 20
+Height before deletion: 4
+Height after deletion: 4
+In-order before deletion: [5, 10, 15, 20, 25, 27, 30, 35, 40, 50]
+In-order after deletion: [5, 10, 15, 25, 27, 30, 35, 40, 50]
+Graph before deletion: AVL_TwoChildren_Before_Delete_20260510_121157.gv.pdf
+Graph after deletion: AVL_TwoChildren_After_Delete_20260510_121158.gv.pdf
