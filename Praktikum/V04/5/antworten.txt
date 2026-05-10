@@ -1,11 +1,25 @@
-Task 5 - Complexity Analysis
-Measured metric: comparisons during insertion
-Scenarios:
-1) BST with sorted input (worst case)
-2) BST with random input (average case)
-3) AVL with sorted input (self-balancing)
+Task 5 - Search Comparison Counts
+Measured metric: comparisons during successful search in already built trees
+Sizes: n = 10, 100, 500
+Scenarios: random BST, sorted BST, sorted AVL
+Theoretical derivation document: theoretische_herleitung_suche.md
+
+n = 10
+- random BST: total = 59, avg = 5.9000
+- sorted BST: total = 110, avg = 11.0000
+- sorted AVL: total = 50, avg = 5.0000
+
+n = 100
+- random BST: total = 1061, avg = 10.6100
+- sorted BST: total = 10100, avg = 101.0000
+- sorted AVL: total = 911, avg = 9.1100
+
+n = 500
+- random BST: total = 8867, avg = 17.7340
+- sorted BST: total = 250500, avg = 501.0000
+- sorted AVL: total = 6227, avg = 12.4540
 
 Interpretation:
-- BST(sorted) grows approximately quadratically over full build (sum of linear path lengths).
-- BST(random) grows slower, close to n*log(n) behavior in practice.
-- AVL(sorted) also stays near n*log(n) due to balancing rotations.
+- sorted BST search comparisons grow strongly because the tree degenerates.
+- random BST stays clearly lower.
+- sorted AVL remains near logarithmic search depth due to balancing.

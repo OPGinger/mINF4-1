@@ -1,17 +1,18 @@
 """
 Daniel Baer
-09.05.2026
+10.05.2026
 
 mINF4/1, V04, Task 5 "Complexity Analysis"
 
 aufgabe5_komplexitaet.py
 
-This script compares insertion complexity by counting comparisons for:
-- BST with sorted input (worst case)
-- BST with random input (average case)
-- AVL with sorted input (self-balancing)
+This script measures search comparisons on already built trees for n = 10, 100, 500.
+Scenarios:
+- random Binary Search Tree
+- sorted Binary Search Tree
+- sorted AVL Tree
 
-It generates a plot and writes measured values plus interpretation.
+Only successful searches are measured (searching all inserted keys once).
 """
 
 import random
@@ -35,90 +36,142 @@ from vorlesung.L05_binaere_baeume.bin_tree import BinaryTree  # type: ignore[imp
 from vorlesung.L05_binaere_baeume.avl_tree import AVLTree  # type: ignore[import-not-found]
 
 
-def build_bst(values: list[int]) -> int:
-    """Build BST and return number of comparisons used for insertion."""
-    ctx = AlgoContext()
+def build_bst(values: list[int], ctx: AlgoContext) -> BinaryTree:
+    """Build and return a BST with the provided insertion order."""
     tree = BinaryTree(ctx)
     for value in values:
         tree.insert(value)
-    return ctx.comparisons
+    return tree
 
 
-def build_avl(values: list[int]) -> int:
-    """Build AVL tree and return number of comparisons used for insertion."""
-    ctx = AlgoContext()
+def build_avl(values: list[int], ctx: AlgoContext) -> AVLTree:
+    """Build and return an AVL tree with the provided insertion order."""
     tree = AVLTree(ctx)
     for value in values:
         tree.insert(value)
-    return ctx.comparisons
+    return tree
 
 
-def run_experiment(sizes: list[int]) -> tuple[list[int], list[int], list[int]]:
-    """Run all three complexity scenarios for each input size."""
-    bst_sorted: list[int] = []
-    bst_random: list[int] = []
-    avl_sorted: list[int] = []
+def count_search_comparisons(tree, ctx: AlgoContext, search_values: list[int]) -> tuple[int, float]:
+    """Measure comparisons for successful searches in an already finished tree."""
+    ctx.reset()
+    for value in search_values:
+        tree.search(value)
+    total = ctx.comparisons
+    avg = total / len(search_values) if search_values else 0.0
+    return total, avg
+
+
+def run_experiment(sizes: list[int]) -> list[dict[str, float]]:
+    """Run all required scenarios for each n and return measured metrics."""
+    rows: list[dict[str, float]] = []
 
     for n in sizes:
         sorted_values = list(range(1, n + 1))
-        rnd = random.Random(42 + n)
+        rnd = random.Random(1000 + n)
         random_values = sorted_values[:]
         rnd.shuffle(random_values)
 
-        bst_sorted.append(build_bst(sorted_values))
-        bst_random.append(build_bst(random_values))
-        avl_sorted.append(build_avl(sorted_values))
+        # Scenario 1: random BST
+        ctx_random_bst = AlgoContext()
+        random_bst = build_bst(random_values, ctx_random_bst)
+        random_bst_total, random_bst_avg = count_search_comparisons(
+            random_bst, ctx_random_bst, sorted_values
+        )
 
-    return bst_sorted, bst_random, avl_sorted
+        # Scenario 2: sorted BST
+        ctx_sorted_bst = AlgoContext()
+        sorted_bst = build_bst(sorted_values, ctx_sorted_bst)
+        sorted_bst_total, sorted_bst_avg = count_search_comparisons(
+            sorted_bst, ctx_sorted_bst, sorted_values
+        )
+
+        # Scenario 3: sorted AVL
+        ctx_sorted_avl = AlgoContext()
+        sorted_avl = build_avl(sorted_values, ctx_sorted_avl)
+        sorted_avl_total, sorted_avl_avg = count_search_comparisons(
+            sorted_avl, ctx_sorted_avl, sorted_values
+        )
+
+        rows.append(
+            {
+                "n": n,
+                "random_bst_total": random_bst_total,
+                "random_bst_avg": random_bst_avg,
+                "sorted_bst_total": sorted_bst_total,
+                "sorted_bst_avg": sorted_bst_avg,
+                "sorted_avl_total": sorted_avl_total,
+                "sorted_avl_avg": sorted_avl_avg,
+            }
+        )
+
+    return rows
 
 
-def write_results(
-    sizes: list[int],
-    bst_sorted: list[int],
-    bst_random: list[int],
-    avl_sorted: list[int],
-) -> None:
-    """Write numeric results to text files for reproducibility."""
-    table_lines = [
-        "n,bst_sorted_comparisons,bst_random_comparisons,avl_sorted_comparisons"
-    ]
-    for n, bs, br, avl in zip(sizes, bst_sorted, bst_random, avl_sorted):
-        table_lines.append(f"{n},{bs},{br},{avl}")
-
-    (TASK_DIR / "messwerte.csv").write_text("\n".join(table_lines) + "\n", encoding="utf-8")
-
-    interpretation = (
-        "Task 5 - Complexity Analysis\n"
-        "Measured metric: comparisons during insertion\n"
-        "Scenarios:\n"
-        "1) BST with sorted input (worst case)\n"
-        "2) BST with random input (average case)\n"
-        "3) AVL with sorted input (self-balancing)\n\n"
-        "Interpretation:\n"
-        "- BST(sorted) grows approximately quadratically over full build (sum of linear path lengths).\n"
-        "- BST(random) grows slower, close to n*log(n) behavior in practice.\n"
-        "- AVL(sorted) also stays near n*log(n) due to balancing rotations.\n"
+def write_results(rows: list[dict[str, float]]) -> None:
+    """Write numeric table and concise interpretation to files."""
+    header = (
+        "n,"
+        "random_bst_total,random_bst_avg,"
+        "sorted_bst_total,sorted_bst_avg,"
+        "sorted_avl_total,sorted_avl_avg"
     )
-    (TASK_DIR / "antworten.txt").write_text(interpretation, encoding="utf-8")
+    lines = [header]
+    for row in rows:
+        lines.append(
+            f"{int(row['n'])},"
+            f"{int(row['random_bst_total'])},{row['random_bst_avg']:.4f},"
+            f"{int(row['sorted_bst_total'])},{row['sorted_bst_avg']:.4f},"
+            f"{int(row['sorted_avl_total'])},{row['sorted_avl_avg']:.4f}"
+        )
+
+    (TASK_DIR / "messwerte.csv").write_text("\n".join(lines) + "\n", encoding="utf-8")
+
+    answer_lines = [
+        "Task 5 - Search Comparison Counts",
+        "Measured metric: comparisons during successful search in already built trees",
+        "Sizes: n = 10, 100, 500",
+        "Scenarios: random BST, sorted BST, sorted AVL",
+        "",
+    ]
+    for row in rows:
+        answer_lines.extend(
+            [
+                f"n = {int(row['n'])}",
+                f"- random BST: total = {int(row['random_bst_total'])}, avg = {row['random_bst_avg']:.4f}",
+                f"- sorted BST: total = {int(row['sorted_bst_total'])}, avg = {row['sorted_bst_avg']:.4f}",
+                f"- sorted AVL: total = {int(row['sorted_avl_total'])}, avg = {row['sorted_avl_avg']:.4f}",
+                "",
+            ]
+        )
+    answer_lines.extend(
+        [
+            "Interpretation:",
+            "- sorted BST search comparisons grow strongly because the tree degenerates.",
+            "- random BST stays clearly lower.",
+            "- sorted AVL remains near logarithmic search depth due to balancing.",
+        ]
+    )
+    (TASK_DIR / "antworten.txt").write_text("\n".join(answer_lines) + "\n", encoding="utf-8")
 
 
-def save_plot(
-    sizes: list[int],
-    bst_sorted: list[int],
-    bst_random: list[int],
-    avl_sorted: list[int],
-) -> Path:
-    """Create and save complexity comparison plot."""
-    fig = plt.figure(figsize=(10, 6))
+def save_plot(rows: list[dict[str, float]]) -> Path:
+    """Create a line plot for total search comparisons over n."""
+    sizes = [int(row["n"]) for row in rows]
+    random_bst_total = [int(row["random_bst_total"]) for row in rows]
+    sorted_bst_total = [int(row["sorted_bst_total"]) for row in rows]
+    sorted_avl_total = [int(row["sorted_avl_total"]) for row in rows]
+
+    fig = plt.figure(figsize=(9, 5))
     ax = fig.add_subplot(1, 1, 1)
 
-    ax.plot(sizes, bst_sorted, marker="o", label="BST sorted input")
-    ax.plot(sizes, bst_random, marker="s", label="BST random input")
-    ax.plot(sizes, avl_sorted, marker="^", label="AVL sorted input")
+    ax.plot(sizes, random_bst_total, marker="o", label="random BST")
+    ax.plot(sizes, sorted_bst_total, marker="s", label="sorted BST")
+    ax.plot(sizes, sorted_avl_total, marker="^", label="sorted AVL")
 
-    ax.set_title("Task 5 - Insertion Complexity Comparison")
+    ax.set_title("Task 5 - Search Comparisons")
     ax.set_xlabel("n")
-    ax.set_ylabel("comparisons")
+    ax.set_ylabel("total comparisons for searching all n keys")
     ax.grid(True)
     ax.legend()
 
@@ -130,17 +183,19 @@ def save_plot(
 
 
 def main() -> None:
-    sizes = list(range(50, 551, 50))
-    bst_sorted, bst_random, avl_sorted = run_experiment(sizes)
-    write_results(sizes, bst_sorted, bst_random, avl_sorted)
-    plot_file = save_plot(sizes, bst_sorted, bst_random, avl_sorted)
+    sizes = [10, 100, 500]
+    rows = run_experiment(sizes)
+    write_results(rows)
+    plot_file = save_plot(rows)
 
     print("Task 5 finished.")
+    print("Search comparisons measured for finished trees.")
     print(f"Plot: {plot_file}")
-    print(f"Last row (n={sizes[-1]}):")
-    print(f"BST sorted comparisons: {bst_sorted[-1]}")
-    print(f"BST random comparisons: {bst_random[-1]}")
-    print(f"AVL sorted comparisons: {avl_sorted[-1]}")
+    for row in rows:
+        print(f"n = {int(row['n'])}")
+        print(f"  random BST total: {int(row['random_bst_total'])}")
+        print(f"  sorted BST total: {int(row['sorted_bst_total'])}")
+        print(f"  sorted AVL total: {int(row['sorted_avl_total'])}")
 
 
 if __name__ == "__main__":

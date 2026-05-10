@@ -1,18 +1,27 @@
 # Task 5 - Complexity Analysis
 
 ## Goal
-Analyze and compare insertion complexity using measured comparisons.
+Measure and compare search comparisons in already built trees.
 
 ## Scenarios
-- BST with sorted input (worst case)
-- BST with random input (average case)
-- AVL with sorted input (balancing active)
+- random Binary Search Tree
+- sorted Binary Search Tree
+- sorted AVL Tree
+
+## Sizes
+- n = 10
+- n = 100
+- n = 500
+
+For each scenario and size, the script builds the tree first and then measures
+comparisons for successful search of all inserted keys.
 
 ## Files
 - `aufgabe5_komplexitaet.py`: implementation.
 - `komplexitaet_plot.png`: generated comparison plot.
 - `messwerte.csv`: measured numeric data.
 - `antworten.txt`: interpretation summary.
+- `theoretische_herleitung_suche.md`: theoretical derivation with formulas for search complexity.
 
 ## Run
 From this folder:
