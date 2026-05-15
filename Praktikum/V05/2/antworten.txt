@@ -1,0 +1,16 @@
+Praktikum 5 - Aufgabe 2: Eigenschaften des B-Baums
+Datensatz: seq3.txt
+
+Hoehe bei Ordnung 3: 6
+Hoehe bei Ordnung 5: 4
+
+Traversal Ordnung 3 sortiert: True
+Traversal Ordnung 5 sortiert: True
+
+Knoten mit Wert 0 bei Ordnung 3: (0 2 5)
+Knoten mit Wert 0 bei Ordnung 5: (-14 -10 -5 0)
+
+Warum enthaelt der Knoten bei Ordnung 5 tendenziell mehr Schluessel?
+Bei groesserem m darf ein Knoten bis zu 2m-1 Schluessel halten.
+Splits treten spaeter auf, deshalb werden Werte laenger in einem Knoten gesammelt.
+Dadurch ist die mittlere Fuellung pro Knoten bei groesserem m typischerweise hoeher.

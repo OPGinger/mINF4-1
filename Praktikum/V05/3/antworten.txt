@@ -1,0 +1,32 @@
+Praktikum 5 - Aufgabe 3: Disk-I/O und Parameter m
+Zufallssequenz: n = 500 (ohne Duplikate, Seed = 20260515)
+
+Messwerte:
+m=2: hoehe=6, vergleiche=3915, loads=3213, saves=1352
+m=3: hoehe=4, vergleiche=4349, loads=2136, saves=962
+m=5: hoehe=2, vergleiche=5135, loads=1503, saves=731
+m=10: hoehe=2, vergleiche=7001, loads=1235, saves=605
+m=20: hoehe=1, vergleiche=9504, loads=979, saves=554
+
+Warum sinkt die Zahl der Plattenzugriffe bei groesserem m?
+Mit groesserem m sinkt die Baumhoehe ungefaehr wie log_m(n).
+Eine Einfuegung besucht weniger Ebenen und damit weniger Knoten auf dem Speicher.
+Daher nehmen load/save-Zugriffe insgesamt ab.
+
+Warum steigen interne Vergleiche trotz sinkender Hoehe?
+In dieser Implementierung wird innerhalb eines Knotens linear gesucht.
+Pro Ebene fallen damit bis zu O(m) Vergleiche an.
+Mit Hoehe O(log_m n) ergibt sich pro Einfuegung asymptotisch:
+T_insert(n, m) = O(m * log_m n) = O((m / ln m) * ln n).
+Damit sinkt die Ebenenzahl, aber die Arbeit pro Ebene steigt mit m.
+
+4KB-Blockgroesse: optimale Ordnung m
+Speichermodell je Knoten:
+(2m-1)*8 Byte fuer Schluessel + (2m)*8 Byte fuer Kindzeiger <= 4096 Byte
+=> 8*(4m-1) <= 4096
+=> 32m - 8 <= 4096
+=> m <= 128.
+Theoretisch optimale (maximale passende) Ordnung: m = 128
+(Metadaten wie leaf-Flag oder n koennen in der Praxis einen minimal kleineren Wert noetig machen.)
+
+Plot-Datei: io_vergleiche_hoehe_plot.png

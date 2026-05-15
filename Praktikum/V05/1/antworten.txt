@@ -1,0 +1,11 @@
+Praktikum 5 - Aufgabe 1: Graphviz-Visualisierung
+Erzeugte PDF: btree_seq1_order3.pdf
+
+Anzahl Schluessel in der Wurzel: 4
+Blatttiefen: [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2]
+Alle Blaetter auf derselben Tiefe: True
+
+Begruendung:
+Ja, in einem B-Baum liegen alle Blattknoten immer auf derselben Tiefe.
+Bei jedem Split wird nur lokal umstrukturiert und die Hoehe global nur am Root erhoeht.
+Dadurch bleibt die Balance-Invariante erhalten.
