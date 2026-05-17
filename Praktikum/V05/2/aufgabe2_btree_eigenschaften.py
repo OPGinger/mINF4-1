@@ -14,7 +14,7 @@ from pathlib import Path
 
 TASK_DIR = Path(__file__).resolve().parent
 PRAKTIKUM_DIR = TASK_DIR.parent.parent
-ALGODAT_DIR = PRAKTIKUM_DIR.parent / "AlgoDatSoSe26"
+ALGODAT_DIR = PRAKTIKUM_DIR / "AlgoDatSoSe26"
 BTREE_DIR = ALGODAT_DIR / "vorlesung" / "L06_b_baeume"
 
 sys.path.insert(0, str(ALGODAT_DIR))

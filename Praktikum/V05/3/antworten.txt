@@ -2,11 +2,11 @@ Praktikum 5 - Aufgabe 3: Disk-I/O und Parameter m
 Zufallssequenz: n = 500 (ohne Duplikate, Seed = 20260515)
 
 Messwerte:
-m=2: hoehe=6, vergleiche=3915, loads=3213, saves=1352
-m=3: hoehe=4, vergleiche=4349, loads=2136, saves=962
-m=5: hoehe=2, vergleiche=5135, loads=1503, saves=731
-m=10: hoehe=2, vergleiche=7001, loads=1235, saves=605
-m=20: hoehe=1, vergleiche=9504, loads=979, saves=554
+m=2: hoehe=6, vergleiche=3909, loads=3238, saves=1334
+m=3: hoehe=4, vergleiche=4114, loads=2253, saves=950
+m=5: hoehe=3, vergleiche=5045, loads=1568, saves=743
+m=10: hoehe=2, vergleiche=6923, loads=1242, saves=608
+m=20: hoehe=1, vergleiche=9816, loads=975, saves=542
 
 Warum sinkt die Zahl der Plattenzugriffe bei groesserem m?
 Mit groesserem m sinkt die Baumhoehe ungefaehr wie log_m(n).

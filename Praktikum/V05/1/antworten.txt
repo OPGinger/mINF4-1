@@ -1,8 +1,8 @@
 Praktikum 5 - Aufgabe 1: Graphviz-Visualisierung
-Erzeugte PDF: btree_seq1_order3.pdf
+Erzeugte PDF: BTree_O2_seq0.pdf
 
-Anzahl Schluessel in der Wurzel: 4
-Blatttiefen: [2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2]
+Anzahl Schluessel in der Wurzel: 1
+Blatttiefen: [2, 2, 2, 2, 2]
 Alle Blaetter auf derselben Tiefe: True
 
 Begruendung:
