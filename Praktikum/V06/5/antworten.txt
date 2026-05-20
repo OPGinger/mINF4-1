@@ -1,0 +1,26 @@
+Task 5 - Comparison of Search Comparisons
+Measured metric: ctx.comparisons during successful search of all inserted keys
+
+alpha ~ 0.7:
+m=50: open_avg=2.8000, chain_avg=1.1429
+m=100: open_avg=4.2286, chain_avg=1.3857
+m=200: open_avg=3.6714, chain_avg=1.3929
+m=500: open_avg=3.4114, chain_avg=1.3486
+m=1000: open_avg=3.8543, chain_avg=1.4114
+
+alpha ~ 0.9:
+m=50: open_avg=4.1333, chain_avg=1.3556
+m=100: open_avg=4.9556, chain_avg=1.4333
+m=200: open_avg=4.8889, chain_avg=1.4056
+m=500: open_avg=5.4311, chain_avg=1.4844
+m=1000: open_avg=5.9689, chain_avg=1.4389
+
+5a) Which strategy needs more comparisons at equal alpha (~0.7)?
+Average over tested sizes: open=3.5931, chain=1.3363. The larger value indicates the more comparison-heavy strategy at alpha~0.7.
+
+5b) What changes at alpha~0.9?
+Average over tested sizes: open=5.0756, chain=1.4236. Compared to alpha~0.7, open addressing usually grows more strongly due to long probe chains.
+
+5c) One advantage of each strategy:
+- Chaining: insertions remain possible beyond alpha=1 and deletion is simple (no tombstones).
+- Open addressing: compact memory layout, often cache-friendly due to contiguous table access.

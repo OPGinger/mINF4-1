@@ -1,0 +1,27 @@
+Task 3 - Open Addressing with m=20 and seq0
+
+3a) After deleting 52:
+slot containing 52 before delete: 2
+content of this slot after delete: DELETED
+(The slot contains DELETED, not UNUSED.)
+Table after deleting 52:
+[34, UNUSED, DELETED, UNUSED, 50, 15, 47, UNUSED, 46, -59, 51, -77, UNUSED, 14, UNUSED, -87, 58, UNUSED, -50, 48]
+
+3b) Why continue search on DELETED but stop on UNUSED?
+DELETED means this slot was part of a probe chain in the past, so the key
+might still appear later in the same chain. UNUSED means no key has ever
+been placed at this probe position, so the chain ends and search can stop.
+
+3c) What breaks if delete sets UNUSED instead of DELETED?
+Concrete example with m=20: choose x=52 and y=-984 with h(x)=h(y)=2.
+Insert x first, then y. y is stored at a later probe position.
+If x is deleted and marked UNUSED, searching y stops too early at x's old slot
+and incorrectly returns False. So search becomes faulty.
+
+3d) Insert 24 after deleting 52:
+manual probe sequence for 24: [16, 2]
+first free slot by manual probing: 2
+actual slot after insert(24): 2
+manual result equals actual result? True
+Table after inserting 24:
+[34, UNUSED, 24, UNUSED, 50, 15, 47, UNUSED, 46, -59, 51, -77, UNUSED, 14, UNUSED, -87, 58, UNUSED, -50, 48]

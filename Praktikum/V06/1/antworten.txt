@@ -1,0 +1,30 @@
+Task 1 - HashTableChaining
+Implemented methods:
+- insert(x): inserts x, duplicates are not stored twice
+- search(x): returns True/False
+- delete(x): removes x if present
+- __str__(): prints all slots including empty slots
+- alpha(): returns n/m
+
+Current alpha after demo inserts: 0.1500
+Current table (all slots):
+ 0: []
+ 1: []
+ 2: [52]
+ 3: [31]
+ 4: []
+ 5: []
+ 6: []
+ 7: []
+ 8: []
+ 9: []
+10: []
+11: [9]
+12: []
+13: []
+14: []
+15: []
+16: []
+17: []
+18: []
+19: []

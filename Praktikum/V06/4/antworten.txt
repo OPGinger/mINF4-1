@@ -1,0 +1,30 @@
+Task 4 - Open Addressing vs Chaining on seq1
+
+4a) Open addressing with m=90 and 100 input values:
+inserted = 87
+rejected = 13
+unused slots after insertion = 3
+alpha = 0.9667
+max unique probe positions (sampled keys) = 20 of 90
+Reason: quadratic probing f can cycle through only a subset of slots for non-prime m,
+so insert may fail even when other slots are still free.
+
+4b) Open addressing with m=89:
+inserted = 89
+rejected = 11
+unused slots after insertion = 0
+alpha = 1.0000
+max unique probe positions (sampled keys) = 45 of 89
+Prime table sizes are advantageous because probe sequences are less likely to get trapped
+in short cycles, so more slots become reachable.
+
+4c) Chaining with m=20 and seq1:
+inserted = 77
+alpha = 3.8500
+Chaining can store all (distinct) keys by extending chains in occupied slots.
+
+4d) Theoretical mean probe count 1/(1-alpha):
+for alpha = 0.5: 2.0000
+for alpha = 0.9: 10.0000
+Practical note: open addressing is usually still comfortable up to roughly alpha <= 0.7;
+near 0.9 probe lengths become large and performance degrades strongly.

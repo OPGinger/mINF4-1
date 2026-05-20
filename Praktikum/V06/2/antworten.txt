@@ -1,0 +1,42 @@
+Task 2 - HashTableChaining with m=20 and seq0
+
+2a) Load factor after inserting seq0 once:
+alpha = 0.7000
+
+2b) Delete value 52 and verify the affected chain:
+slot for 52 = 2
+chain before delete: [52]
+delete(52) returned: True
+chain after delete: []
+Table after deleting 52:
+ 0: [34, 47]
+ 1: []
+ 2: []
+ 3: []
+ 4: []
+ 5: [15]
+ 6: []
+ 7: []
+ 8: [46]
+ 9: [-59]
+10: [51]
+11: [-77]
+12: []
+13: [14, 48]
+14: []
+15: [-87]
+16: [58]
+17: []
+18: [-50, 50]
+19: []
+
+2c) Insert seq0 again:
+alpha after second insert pass = 0.7000
+alpha > 1 ? False
+Can insert ever return False for chaining? No, not due to capacity.
+Duplicates are ignored, but insertion does not fail because of full table.
+
+2d) Why no DELETED_MARK in chaining?
+In separate chaining, each slot stores an independent list.
+Removing one key from that list does not break probe sequences of other keys,
+because search does not rely on tombstone markers across neighboring slots.
