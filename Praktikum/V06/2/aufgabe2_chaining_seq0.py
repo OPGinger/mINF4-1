@@ -12,7 +12,6 @@ This script verifies the chaining implementation on seq0 with table size 20.
 from __future__ import annotations
 
 import sys
-from collections.abc import Callable
 from pathlib import Path
 
 # Resolve local directories relative to this task folder.
@@ -21,78 +20,14 @@ V06_DIR = TASK_DIR.parent
 PRAKTIKUM_DIR = V06_DIR.parent
 ALGODAT_DIR = PRAKTIKUM_DIR / "AlgoDatSoSe26"
 
-# Add module path for AlgoDat lecture code.
+# Add module paths for shared V06 code and AlgoDat lecture code.
+sys.path.insert(0, str(V06_DIR))
 sys.path.insert(0, str(ALGODAT_DIR))
 
 from utils.algo_context import AlgoContext  # type: ignore[import-not-found]
 from utils.algo_int import Int  # type: ignore[import-not-found]
 from vorlesung.L07_hashtable.analyze_hashtable import h  # type: ignore[import-not-found]
-
-
-class HashTableChaining:
-    """Hash table with separate chaining (one Python list per slot)."""
-
-    def __init__(self, m: int, h_fun: Callable[[Int, Int], Int], ctx: AlgoContext):
-        self.ctx = ctx
-        self.m = Int(m, ctx)
-        self.h = h_fun
-        # Each slot holds a chain (list) of keys.
-        self.table: list[list[Int]] = [[] for _ in range(m)]
-        self.n = 0
-
-    def _wrap(self, x: int | Int) -> Int:
-        """Convert plain int values to Int for consistent instrumentation."""
-        if isinstance(x, Int):
-            return x
-        return Int(x, self.ctx)
-
-    def _slot(self, x: Int) -> int:
-        """Compute the slot index with the provided hash function."""
-        return int(self.h(x, self.m))
-
-    def insert(self, x: int | Int) -> bool:
-        """Insert x into its chain unless it already exists."""
-        key = self._wrap(x)
-        idx = self._slot(key)
-        for current in self.table[idx]:
-            if current == key:
-                return True
-        self.table[idx].append(key)
-        self.n += 1
-        return True
-
-    def search(self, x: int | Int) -> bool:
-        """Return True if x is present, otherwise False."""
-        key = self._wrap(x)
-        idx = self._slot(key)
-        for current in self.table[idx]:
-            if current == key:
-                return True
-        return False
-
-    def delete(self, x: int | Int) -> bool:
-        """Remove x from the chain if available."""
-        key = self._wrap(x)
-        idx = self._slot(key)
-        chain = self.table[idx]
-        for pos, current in enumerate(chain):
-            if current == key:
-                del chain[pos]
-                self.n -= 1
-                return True
-        return False
-
-    def alpha(self) -> float:
-        """Return load factor n/m."""
-        return self.n / int(self.m)
-
-    def __str__(self) -> str:
-        """Render all slots, including empty ones."""
-        lines: list[str] = []
-        for idx, chain in enumerate(self.table):
-            values = ", ".join(str(int(key)) for key in chain)
-            lines.append(f"{idx:2d}: [{values}]")
-        return "\n".join(lines)
+from hashtable_chaining import HashTableChaining
 
 
 def load_seq0() -> list[int]:
