@@ -27,7 +27,7 @@ sys.path.insert(0, str(ALGODAT_DIR))
 from utils.algo_context import AlgoContext  # type: ignore[import-not-found]
 from utils.algo_int import Int  # type: ignore[import-not-found]
 from vorlesung.L07_hashtable.analyze_hashtable import h  # type: ignore[import-not-found]
-from hashtable_chaining import HashTableChaining
+from V06_hashtable_chaining import HashTableChaining
 
 
 def write_answers(table: HashTableChaining) -> None:

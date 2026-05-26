@@ -1,10 +1,10 @@
 """
 Daniel Baer
-20.05.2026
+26.05.2026
 
-mINF4/1, V06, Task 5 "Search Comparisons: Open Addressing vs Chaining"
+mINF4/1, V06, Task 5 "Vergleich Suche: offene Adressierung vs verkettete Listen"
 
-aufgabe5_vergleich_open_vs_chaining.py
+V06_05_Search_OpenVsChaining.py
 
 This script measures ctx.comparisons for successful searches in both strategies.
 Tables with sizes [50, 100, 200, 500, 1000] are filled to alpha ~0.7 and alpha ~0.9
@@ -35,7 +35,7 @@ from utils.algo_context import AlgoContext  # type: ignore[import-not-found]
 from utils.algo_int import Int  # type: ignore[import-not-found]
 from vorlesung.L07_hashtable.analyze_hashtable import f, h  # type: ignore[import-not-found]
 from vorlesung.L07_hashtable.hashtable import HashTableOpenAddressing  # type: ignore[import-not-found]
-from hashtable_chaining import HashTableChaining
+from V06_hashtable_chaining import HashTableChaining
 
 
 def fill_tables(m: int, target_alpha: float) -> dict[str, object]:
@@ -72,7 +72,7 @@ def fill_tables(m: int, target_alpha: float) -> dict[str, object]:
             if guard >= max_guard:
                 break
 
-    chain_values = [int(key) for key in chain_ht.keys()]
+    chain_values = 0#[int(key) for key in chain_ht.keys()]
 
     return {
         "m": m,
