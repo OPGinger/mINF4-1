@@ -1,0 +1,47 @@
+﻿Aufgabe 2: Tiefensuche und topologisches Sortieren
+============================================================
+a) Graphaufbau
+- Knoten (Module): ast, codegen, lexer, main, optimizer, parser, utils
+- Kanten (A -> B bedeutet: A haengt von B ab):
+  main -> parser
+  main -> codegen
+  parser -> lexer
+  parser -> ast
+  codegen -> ast
+  codegen -> optimizer
+  optimizer -> utils
+  ast -> utils
+
+b) DFS mit Zeitmarken
+- Hinweis: graph.dfs() wirft aktuell einen Fehler (Vertex(ast)).
+- Es wird eine lokale DFS-Fallback-Implementierung verwendet.
+       Modul      enter      leave
+         ast          5          8
+     codegen         10         13
+       lexer          3          4
+        main          1         14
+   optimizer         11         12
+      parser          2          9
+       utils          6          7
+
+c) Topologische Sortierung
+- Reihenfolge nach absteigender Endzeit:
+  main -> codegen -> optimizer -> parser -> ast -> utils -> lexer
+- Pruefung: Abhaengigkeiten verletzt in dieser Reihenfolge:
+  Verletzung: main haengt von parser ab, aber parser kommt nach main.
+  Verletzung: main haengt von codegen ab, aber codegen kommt nach main.
+  Verletzung: parser haengt von lexer ab, aber lexer kommt nach parser.
+  Verletzung: parser haengt von ast ab, aber ast kommt nach parser.
+  Verletzung: codegen haengt von ast ab, aber ast kommt nach codegen.
+  Verletzung: codegen haengt von optimizer ab, aber optimizer kommt nach codegen.
+  Verletzung: optimizer haengt von utils ab, aber utils kommt nach optimizer.
+  Verletzung: ast haengt von utils ab, aber utils kommt nach ast.
+- Korrigierte Build-Reihenfolge (inverse Reihenfolge):
+  lexer -> utils -> ast -> parser -> optimizer -> codegen -> main
+
+d) Komplexitaet O(|V| + |E|)
+- Anzahl Knoten |V| = 7
+- Anzahl Kanten |E| = 8
+- Jeder Knoten wird in DFS genau einmal von WHITE nach GRAY nach BLACK gefaerbt.
+- Jede gerichtete Kante wird genau einmal betrachtet, wenn ihr Startknoten expandiert wird.
+- Daher ist die Laufzeit linear in der Summe aus Knoten und Kanten.

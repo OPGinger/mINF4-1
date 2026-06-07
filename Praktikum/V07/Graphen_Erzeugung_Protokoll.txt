@@ -1,0 +1,8 @@
+﻿GV-Dateien erzeugt:
+- C:\Users\daniel.baer\Documents\Studium\MSY\mINF4-1\Praktikum\V07\Aufgabe1_Graph_Beispiel.gv
+- C:\Users\daniel.baer\Documents\Studium\MSY\mINF4-1\Praktikum\V07\Aufgabe1_Graph_Echtkarte.gv
+- C:\Users\daniel.baer\Documents\Studium\MSY\mINF4-1\Praktikum\V07\Aufgabe2_Abhaengigkeiten.gv
+dot gefunden: C:\Users\daniel.baer\Documents\Studium\MSY\mINF4-1\Praktikum\Graphviz-14.1.5-win64\bin\dot.exe
+- PDF erzeugt: C:\Users\daniel.baer\Documents\Studium\MSY\mINF4-1\Praktikum\V07\Aufgabe1_Graph_Beispiel.pdf
+- PDF erzeugt: C:\Users\daniel.baer\Documents\Studium\MSY\mINF4-1\Praktikum\V07\Aufgabe2_Abhaengigkeiten.pdf
+- PDF erzeugt: C:\Users\daniel.baer\Documents\Studium\MSY\mINF4-1\Praktikum\V07\Aufgabe1_Graph_Echtkarte.pdf

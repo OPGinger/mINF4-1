@@ -1,0 +1,12 @@
+digraph "Aufgabe2_Abhaengigkeiten" {
+  rankdir=LR;
+  node [shape=ellipse, fontname="Arial"];
+  "main" -> "parser";
+  "main" -> "codegen";
+  "parser" -> "lexer";
+  "parser" -> "ast";
+  "codegen" -> "ast";
+  "codegen" -> "optimizer";
+  "optimizer" -> "utils";
+  "ast" -> "utils";
+}
