@@ -29,12 +29,31 @@ SCRIPT_DIR = Path(__file__).resolve().parent
 LOCAL_DOT = SCRIPT_DIR.parent / "Graphviz-14.1.5-win64" / "bin" / "dot.exe"
 
 
-def write_gv_file(file_path: Path, title: str, edges: list[tuple[str, str, float]]) -> None:
+def build_heightmap_node_labels(grid: list[list[str]]) -> dict[str, str]:
+    """Create node labels of form '(row,col)\\nchar' for heightmap graphs."""
+    labels = {}
+    for row_index, row in enumerate(grid):
+        for col_index, char in enumerate(row):
+            name = f"{row_index},{col_index}"
+            labels[name] = f"({row_index},{col_index})\\n{char}"
+    return labels
+
+
+def write_gv_file(
+    file_path: Path,
+    title: str,
+    edges: list[tuple[str, str, float]],
+    node_labels: dict[str, str] | None = None,
+) -> None:
     """Write a directed graph in Graphviz DOT syntax."""
     with file_path.open("w", encoding="utf-8") as file:
         file.write(f'digraph "{title}" {{\n')
         file.write("  rankdir=LR;\n")
         file.write('  node [shape=ellipse, fontname="Arial"];\n')
+
+        if node_labels is not None:
+            for node_name, label in node_labels.items():
+                file.write(f'  "{node_name}" [label="{label}"];\n')
 
         # Write all edges.
         for src, dst, weight in edges:
@@ -73,9 +92,15 @@ def main() -> None:
     example_lines = EXAMPLE_MAP_TEXT.splitlines()
     example_grid, _, _ = parse_heightmap(example_lines)
     example_graph, _, _ = build_height_graph(example_grid)
+    example_labels = build_heightmap_node_labels(example_grid)
 
     gv_a1_example = SCRIPT_DIR / "Aufgabe1_Graph_Beispiel.gv"
-    write_gv_file(gv_a1_example, "Aufgabe1_Beispiel", example_graph.all_edges())
+    write_gv_file(
+        gv_a1_example,
+        "Aufgabe1_Beispiel",
+        example_graph.all_edges(),
+        node_labels=example_labels,
+    )
 
     # Aufgabe 1: Graph fuer echte Karte
     real_input = SCRIPT_DIR / "aoc_day12_input.txt"
@@ -83,9 +108,15 @@ def main() -> None:
         real_lines = load_map_from_file(real_input)
         real_grid, _, _ = parse_heightmap(real_lines)
         real_graph, _, _ = build_height_graph(real_grid)
+        real_labels = build_heightmap_node_labels(real_grid)
 
         gv_a1_real = SCRIPT_DIR / "Aufgabe1_Graph_Echtkarte.gv"
-        write_gv_file(gv_a1_real, "Aufgabe1_Echtkarte", real_graph.all_edges())
+        write_gv_file(
+            gv_a1_real,
+            "Aufgabe1_Echtkarte",
+            real_graph.all_edges(),
+            node_labels=real_labels,
+        )
     else:
         gv_a1_real = None
 
