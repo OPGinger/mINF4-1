@@ -17,8 +17,7 @@ from pathlib import Path
 # Build import paths so this script can be started from different working directories.
 TASK_DIR = Path(__file__).resolve().parent
 PRAKTIKUM_DIR = TASK_DIR.parent
-ROOT_DIR = PRAKTIKUM_DIR.parent
-ALGODAT_DIR = ROOT_DIR / "AlgoDatSoSe26"
+ALGODAT_DIR = PRAKTIKUM_DIR / "AlgoDatSoSe26"
 
 sys.path.insert(0, str(ALGODAT_DIR))
 
