@@ -1,8 +1,8 @@
 """
 Daniel Baer
-26.05.2026
+14.06.2026
 
-mINF4/1, V06, Task 2 "Bellman-Ford"
+mINF4/1, V08, Task 2 "Bellman-Ford"
 
 V08_02_BellmanFord.py
 
