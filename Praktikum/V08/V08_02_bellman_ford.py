@@ -1,14 +1,4 @@
-"""
-Daniel Baer
-14.06.2026
-
-mINF4/1, V08, Aufgabe 2 "Bellman-Ford"
-
-V08_02_bellman_ford.py
-
-Implementiert Bellman-Ford analog zu dijkstra() fuer die Graph-Klasse aus der Vorlesung,
-inklusive Erkennung negativer Zyklen.
-"""
+"""Minimal Bellman-Ford solution for Praktikum V08 Aufgabe 2."""
 
 import sys
 from pathlib import Path
@@ -23,12 +13,7 @@ from vorlesung.L08_graphen.graph import AdjacencyListGraph
 
 
 def bellman_ford(graph, start_name: str):
-    """
-    Berechnet kuerzeste Wege mit Bellman-Ford.
-
-    Rueckgabe:
-    (distance_map, predecessor_map, has_negative_cycle)
-    """
+    """Return (distance_map, predecessor_map, has_negative_cycle)."""
     vertices = graph.all_vertices()
     distance_map = {vertex: float("inf") for vertex in vertices}
     predecessor_map = {vertex: None for vertex in vertices}
@@ -36,9 +21,8 @@ def bellman_ford(graph, start_name: str):
     start_vertex = graph.get_vertex(start_name)
     distance_map[start_vertex] = 0
 
-    vertex_count = len(vertices)
-
-    for _ in range(vertex_count - 1):
+    # Relax all edges at most |V|-1 times.
+    for _ in range(len(vertices) - 1):
         changed = False
         for src_name, dest_name, weight in graph.all_edges():
             src_vertex = graph.get_vertex(src_name)
@@ -56,6 +40,7 @@ def bellman_ford(graph, start_name: str):
         if not changed:
             break
 
+    # One extra pass detects a reachable negative cycle.
     has_negative_cycle = False
     for src_name, dest_name, weight in graph.all_edges():
         src_vertex = graph.get_vertex(src_name)
@@ -71,7 +56,8 @@ def bellman_ford(graph, start_name: str):
     return distance_map, predecessor_map, has_negative_cycle
 
 
-def build_lecture_graph() -> AdjacencyListGraph:
+def build_graph():
+    """Build the graph from the assignment table."""
     graph = AdjacencyListGraph()
     for name in ["a", "b", "c", "d", "e"]:
         graph.insert_vertex(name)
@@ -84,114 +70,43 @@ def build_lecture_graph() -> AdjacencyListGraph:
     graph.connect("c", "e", 4)
     graph.connect("d", "c", -2)
     graph.connect("d", "e", 2)
-
     return graph
 
 
-def reconstruct_path(graph, predecessor_map, destination_name: str) -> list[str]:
+def reconstruct_path(graph, predecessor_map, start_name: str, destination_name: str) -> list[str]:
+    """Reconstruct one shortest path start -> destination from predecessor_map."""
     destination_vertex = graph.get_vertex(destination_name)
-
-    if predecessor_map[destination_vertex] is None and destination_name != "a":
-        return [destination_name]
+    start_vertex = graph.get_vertex(start_name)
 
     path = []
     current = destination_vertex
     while current is not None:
         path.insert(0, current.value)
+        if current == start_vertex:
+            return path
         current = predecessor_map[current]
 
-    return path
-
-
-def append_to_answer_file(section_text: str) -> None:
-    answer_path = TASK_DIR / "V08_Antworten.txt"
-
-    if answer_path.exists():
-        old_text = answer_path.read_text(encoding="utf-8")
-    else:
-        old_text = "Praktikum 8 - Kuerzeste Wege\n"
-
-    if not old_text.endswith("\n"):
-        old_text += "\n"
-
-    answer_path.write_text(old_text + "\n" + section_text + "\n", encoding="utf-8")
+    return []
 
 
 def main() -> None:
-    print("Aufgabe 2: Bellman-Ford")
-    print("=" * 60)
+    graph = build_graph()
 
-    graph = build_lecture_graph()
-
-    print("a) Implementierung")
-    print("- bellman_ford(graph, start_name) nutzt |V|-1 Relaxationsrunden und eine Pruefrunde.")
-    print()
-
-    print("b) Test auf Vorlesungsgraph (Start a)")
     distance_map, predecessor_map, has_negative_cycle = bellman_ford(graph, "a")
-
-    vertices_sorted = sorted(graph.all_vertices(), key=lambda vertex: vertex.value)
-
-    table_lines = []
-    for vertex in vertices_sorted:
+    
+    for vertex in sorted(graph.all_vertices(), key=lambda item: item.value):
         distance = distance_map[vertex]
-        path = reconstruct_path(graph, predecessor_map, vertex.value)
-        path_text = " -> ".join(path)
         distance_text = "inf" if distance == float("inf") else str(int(distance))
+        path = reconstruct_path(graph, predecessor_map, "a", vertex.value)
+        path_text = " -> ".join(path) if path else "unreachable"
+        print(f"- {vertex.value}: distance={distance_text}, path={path_text}")
+    print(f"- has_negative_cycle={has_negative_cycle}")
 
-        table_lines.append(
-            f"- {vertex.value}: Distanz={distance_text}, Pfad={path_text}"
-        )
-
-    for line in table_lines:
-        print(line)
-
-    print(f"- has_negative_cycle: {has_negative_cycle}")
-    print()
-
-    print("c) Negativer Zyklus")
+    # Add e -> b with weight -8 and run again.
+    print("\nAdd edge e -> b with weight -8")
     graph.connect("e", "b", -8)
-    _, _, has_negative_cycle_2 = bellman_ford(graph, "a")
-
-    print("- Zusatzkante: e -> b mit Gewicht -8")
-    print(f"- has_negative_cycle: {has_negative_cycle_2}")
-    print("- Erkannter Zyklus: b -> d -> e -> b")
-    print("- Zyklusgewicht: 2 + 2 + (-8) = -4")
-    print("- Erkennung durch abschliessende Pruefrunde: weitere Relaxation ist moeglich.")
-    print()
-
-    print("d) Komplexitaet")
-    print("- Bellman-Ford: O(|V|*|E|)")
-    print("- Dijkstra (Min-Heap): O(|V| log |V| + |E|)")
-    print("- Dijkstra ist vorzuziehen ohne negative Kanten (in der Regel schneller).")
-    print("- Bellman-Ford muss genutzt werden bei negativen Kanten oder wenn")
-    print("  negative Zyklen erkannt werden sollen.")
-
-    section_lines = [
-        "Aufgabe 2: Bellman-Ford",
-        "",
-        "a) Implementierung",
-        "- bellman_ford(graph, start_name) mit |V|-1 Relaxationsrunden und Pruefrunde.",
-        "",
-        "b) Test auf Vorlesungsgraph (Start a)",
-    ]
-    section_lines.extend(table_lines)
-    section_lines.append(f"- has_negative_cycle: {has_negative_cycle}")
-    section_lines.append("")
-    section_lines.append("c) Negativer Zyklus")
-    section_lines.append("- Zusatzkante: e -> b mit Gewicht -8")
-    section_lines.append(f"- has_negative_cycle: {has_negative_cycle_2}")
-    section_lines.append("- Betroffener Zyklus: b -> d -> e -> b")
-    section_lines.append("- Zyklusgewicht: -4")
-    section_lines.append("")
-    section_lines.append("d) Komplexitaet")
-    section_lines.append("- Bellman-Ford: O(|V|*|E|)")
-    section_lines.append("- Dijkstra (Min-Heap): O(|V| log |V| + |E|)")
-    section_lines.append("- Dijkstra bei nicht-negativen Kanten, Bellman-Ford bei negativen Kanten/Zyklenpruefung.")
-
-    append_to_answer_file("\n".join(section_lines))
-    print()
-    print("Aufgabe-2-Ergebnisse wurden in V08_Antworten.txt ergaenzt.")
+    _, _, has_negative_cycle_after = bellman_ford(graph, "a")
+    print(f"- has_negative_cycle={has_negative_cycle_after}")
 
 
 if __name__ == "__main__":
