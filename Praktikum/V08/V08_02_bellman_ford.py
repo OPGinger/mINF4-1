@@ -1,4 +1,15 @@
-"""Minimal Bellman-Ford solution for Praktikum V08 Aufgabe 2."""
+"""
+Daniel Baer
+26.05.2026
+
+mINF4/1, V06, Task 2 "Bellman-Ford"
+
+V08_02_BellmanFord.py
+
+
+This script implements the Bellman-Ford algorithm to find shortest paths from a start vertex to all other vertices in a directed graph.
+"""
+
 
 import sys
 from pathlib import Path
@@ -12,8 +23,8 @@ sys.path.insert(0, str(ALGODAT_DIR))
 from vorlesung.L08_graphen.graph import AdjacencyListGraph
 
 
-def bellman_ford(graph, start_name: str):
-    """Return (distance_map, predecessor_map, has_negative_cycle)."""
+def bellman_ford(graph, start_name: str) -> tuple[dict, dict, bool]:
+    """ returns distance_map, predecessor_map, has_negative_cycle """
     vertices = graph.all_vertices()
     distance_map = {vertex: float("inf") for vertex in vertices}
     predecessor_map = {vertex: None for vertex in vertices}
@@ -57,7 +68,7 @@ def bellman_ford(graph, start_name: str):
 
 
 def build_graph():
-    """Build the graph from the assignment table."""
+    """ build the graph from the given table """
     graph = AdjacencyListGraph()
     for name in ["a", "b", "c", "d", "e"]:
         graph.insert_vertex(name)
@@ -74,7 +85,7 @@ def build_graph():
 
 
 def reconstruct_path(graph, predecessor_map, start_name: str, destination_name: str) -> list[str]:
-    """Reconstruct one shortest path start -> destination from predecessor_map."""
+    """ reconstruct one shortest path (start -> destination) from predecessor_map """
     destination_vertex = graph.get_vertex(destination_name)
     start_vertex = graph.get_vertex(start_name)
 
@@ -102,8 +113,8 @@ def main() -> None:
         print(f"- {vertex.value}: distance={distance_text}, path={path_text}")
     print(f"- has_negative_cycle={has_negative_cycle}")
 
-    # Add e -> b with weight -8 and run again.
-    print("\nAdd edge e -> b with weight -8")
+    # add e -> b with weight -8 and run again.
+    print("\nadd edge e -> b with weight -8")
     graph.connect("e", "b", -8)
     _, _, has_negative_cycle_after = bellman_ford(graph, "a")
     print(f"- has_negative_cycle={has_negative_cycle_after}")
