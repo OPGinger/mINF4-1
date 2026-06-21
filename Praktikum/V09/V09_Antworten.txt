@@ -1,0 +1,29 @@
+Praktikum 9 - Minimal aufspannende Baeume
+
+a) Modellierung
+- Potenzielle Verbindungen bei n Boxen: n*(n-1)/2 = 1000*999/2 = 499500.
+- Fuer exakt globale kuerzeste Kanten ist das vollstaendige Paarmodell korrekt.
+- Alternative fuer nur k Kandidaten: Heap/PriorityQueue fuer schrittweise Auswahl.
+- Geeignete Datenstruktur: Priority Queue (Demo-Strategieauswahl: k-shortest-edge-strategy).
+
+b) Union-Find
+- Klasse DisjointSet implementiert: make_set, find_set, union.
+- Erweiterung: Groesse je Schaltkreis wird in O(1) am Repraesentanten gefuehrt.
+
+c) Kruskal auf Beispiel aus aoc_day8.txt
+- Anzahl Boxen: 20
+- k kuerzeste Paare: 10
+- Schaltkreisgroessen (absteigend): [5, 4, 2, 2, 1, 1, 1, 1, 1, 1, 1]
+- Produkt der drei groessten: 40
+- Erwartungswert laut Aufgabe: 40
+
+d) AoC Teil 1 (aoc_input_generated.txt)
+- Anzahl Boxen: 1000
+- k kuerzeste Paare: 1000
+- Betrachtete Kanten: 1000, wirksame unions: 722
+- Schaltkreisgroessen (absteigend): [52, 43, 38, 30, 22, 22, 21, 21, 21, 20, 18, 18, 18, 17, 17, 16, 15, 14, 12, 12, 11, 11, 10, 10, 9, 9, 9, 8, 8, 7, 7, 7, 6, 6, 6, 6, 6, 5, 5, 5, 5, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
+- Produkt der drei groessten Schaltkreise: 84968
+
+e) AoC Teil 2 (Kruskal bis ein Schaltkreis)
+- Letzte wirksame Verbindung: (94118, 14262, 86867) <-> (92049, 7915, 99919)
+- Produkt der X-Koordinaten: 94118 * 92049 = 8663467782
