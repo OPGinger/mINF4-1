@@ -1,0 +1,37 @@
+Bitte setze mie die unten beschriebene Praktikumsaufgabe im Ordner V09 mit den Modulen aus AlgoDatSoSe26 genau so um, wie die vorherigen Praktikumsaufgaben.
+Bitte schreibe die Antworten in eine eigene Textdatei.
+
+Praktikum 9: Minimal aufspannende Bäume 
+Aufgabe: Kruskal – AoC 2025 Day 8 „Playground" 
+ 
+Das Rätsel „Advent of Code 2025, Tag 8" (aoc_day8.txt) beschreibt folgendes Problem:
+𝑛 Junction Boxes befinden sich an Positionen (𝑥,𝑦,𝑧) im dreidimensionalen Raum.
+Zwei Boxen lassen sich verbinden; die Kosten entsprechen der euklidischen Distanz zwischen ihnen.
+Verbundene Boxen bilden zusammen einen Schaltkreis. Verbindet man zwei Boxen, die bereits zum selben Schaltkreis gehören, hat das keine Wirkung. 
+ 
+a) Modellierung: Wie viele potenzielle Verbindungen gibt es bei 𝑛 Boxen? Muss man wirklich alle berechnen und 
+speichern, oder reicht eine einfachere Strategie, um die 𝑘 kürzesten zu finden? Welche 
+Datenstruktur ist dafür geeignet? 
+ 
+b) Union-Find: Implementieren Sie eine Klasse `DisjointSet` mit den Operationen: 
+- make_set(v) – legt eine einelementige Menge für Box v an 
+- find_set(v) – gibt den Repräsentanten des Schaltkreises zurück, der v enthält 
+- union(u, v) – vereinigt die Schaltkreise von u und v 
+ 
+Orientieren Sie sich an vorlesung/L09_mst/disjoint.py. Erweitern Sie die Implementierung so, 
+dass sich die Größe jedes Schaltkreises effizient abfragen lässt. 
+ 
+c) Kruskal: Lesen Sie die Koordinaten der Junction Boxes aus der Eingabe ein.
+Berechnen Sie alle Paare mit ihrer euklidischen Distanz, sortieren Sie sie aufsteigend und verbinden Sie die k kürzesten Paare mithilfe von Union-Find.
+Geben Sie anschließend die Größen aller entstandenen Schaltkreise aus. 
+ 
+Prüfen Sie Ihre Lösung am Beispiel aus der Aufgabenstellung (20 Boxen, 𝑘 = 10, erwartet: 40). 
+ 
+d) AoC – Teil 1: Melden Sie sich bei „Advent of Code" an und laden Sie Ihren eigenen Datensatz für Tag 8 herunter (aoc_input_generated.txt).
+Verbinden Sie die 1000 kürzesten Paare und berechnen Sie das Produkt der drei größten Schaltkreise. 
+ 
+e) AoC – Teil 2: Führen Sie Kruskal weiter, bis alle Junction Boxes in einem einzigen Schaltkreis verbunden sind.
+Welche Verbindung wird zuletzt hergestellt? Geben Sie das Produkt der X-Koordinaten der beiden dabei verbundenen Boxen aus. 
+ 
+Im Beispiel (20 Boxen) ist die letzte Verbindung zwischen den Boxen an Position (216, 146, 977) und (117, 168, 530);
+das Produkt der X-Koordinaten ergibt 216 × 117 = 2527
